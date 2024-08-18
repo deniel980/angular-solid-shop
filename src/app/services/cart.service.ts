@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Cart, CartItem } from '../pages/models/cart.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Duplex } from 'stream';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +26,16 @@ export class CartService {
     // this.cart.value.items = items;
     this.cart.next({ items }); //emit the value to cart, so that subscribed components can hear it
     this._snackBar.open('One item is added to cart', 'Ok', { duration: 3000 });
-    console.log(this.cart.value)
+  }
+
+  getTotal(items: CartItem[]): number {
+    return items
+      .map((item) => item.price * item.quantity)
+      .reduce((prev, current) => prev + current, 0);
+  }
+
+  clearCart(): void {
+    this.cart.next({ items: [] });
+    this._snackBar.open('Cart is clear.', 'Ok', { duration: 3000 });
   }
 }
