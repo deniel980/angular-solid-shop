@@ -9,24 +9,10 @@ import { CartService } from '../../services/cart.service';
 })
 export class CartComponent {
   cart: Cart = {
-    items: [
-      {
-        imageUrl: 'https://via.placeholder.com/150',
-        name: 'snickers',
-        price: 150,
-        quantity: 1,
-        id: 1,
-      },
-      {
-        imageUrl: 'https://via.placeholder.com/150',
-        name: 'snickers',
-        price: 150,
-        quantity: 3,
-        id: 1,
-      },
-    ],
+    items: [],
   };
   dataSource: Array<CartItem> = [];
+  
   displayedColumns: Array<String> = [
     'imageUrl',
     'name',
@@ -36,10 +22,13 @@ export class CartComponent {
     'action',
   ];
 
-  constructor(private cartService: CartService){}
+  constructor(private cartService: CartService) {}
 
   ngOnInit(): void {
-    this.dataSource = this.cart.items;
+    this.cartService.cart.subscribe((_cart) => {
+      this.cart = _cart;
+      this.dataSource = this.cart.items;
+    });
   }
 
   getTotal(items: CartItem[]): number {
@@ -53,7 +42,6 @@ export class CartComponent {
   increaseItemsCount(quantity: number): number {
     return quantity + 1;
   }
-
 
   removeItem(element: CartItem): void {}
 }

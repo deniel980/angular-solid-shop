@@ -20,7 +20,7 @@ export class HeaderComponent {
     this._cart = cart;
 
     this.itemsQuantity = cart.items
-      .map((_item) => _item.price * _item.quantity)
+      .map((_item) => _item.quantity)
       .reduce((prev, current) => prev + current, 0);
   }
 
