@@ -12,7 +12,7 @@ export class CartComponent {
     items: [],
   };
   dataSource: Array<CartItem> = [];
-  
+
   displayedColumns: Array<String> = [
     'imageUrl',
     'name',
@@ -43,5 +43,11 @@ export class CartComponent {
     return quantity + 1;
   }
 
-  removeItem(element: CartItem): void {}
+  onClearAll(): void {
+    this.cartService.clearCart();
+  }
+
+  onRemoveFromCart(item: CartItem): void {
+    this.cartService.removeFromCart(item);
+  }
 }
